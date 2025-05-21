@@ -7,134 +7,229 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
 
-  body {
-    margin: 0;
-    padding: 30px 20px;
+  /* Reset */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0; padding: 0;
     font-family: 'Comfortaa', cursive, sans-serif;
     background: linear-gradient(135deg, #fceabb, #ff9a9e);
     color: #4a374a;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
     text-align: center;
+    padding: 40px 20px 40px;
+    overflow-x: hidden;
   }
 
-  h1 {
-    font-size: 2.8rem;
-    margin-bottom: 20px;
-    position: relative;
+  /* Splash screen */
+  #splash {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     color: #6b3a6b;
-    text-shadow: 1px 1px 5px rgba(107, 58, 107, 0.3);
+    font-size: 2.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    z-index: 9999;
+    user-select: none;
+    animation: splashPulse 1.8s ease-in-out infinite alternate;
+    transition: opacity 1s ease;
   }
 
-  /* Small confetti circles behind the header */
+  #splash.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @keyframes splashPulse {
+    0% { transform: scale(1) rotate(0deg); }
+    100% { transform: scale(1.05) rotate(3deg); }
+  }
+
+  #splash div:last-child {
+    font-size: 1.3rem;
+    margin-top: 15px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    opacity: 0.85;
+  }
+
+  /* Heading */
+  h1 {
+    font-size: 3.4rem;
+    margin-bottom: 30px;
+    color: #7f3a7f;
+    text-shadow:
+      2px 2px 5px rgba(255 105 180 / 0.5),
+      0 0 20px rgba(255 105 180 / 0.4);
+    position: relative;
+    user-select: none;
+    animation: fadeInUp 1.2s ease forwards;
+    opacity: 0;
+  }
+
   h1::before {
     content: "🎉🎊";
     position: absolute;
-    top: -35px;
+    top: -48px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 2rem;
-    opacity: 0.6;
+    font-size: 3rem;
+    opacity: 0.75;
     user-select: none;
+    filter: drop-shadow(0 0 3px #ff75b0);
+    animation: bounce 2.5s infinite ease-in-out;
   }
 
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-12px); }
+  }
+
+  /* Poem box */
   .poem {
-    max-width: 420px;
-    font-size: 1.25rem;
-    line-height: 1.6;
-    margin-bottom: 35px;
-    background: rgba(255, 255, 255, 0.85);
-    padding: 25px 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
+    max-width: 460px;
+    font-size: 1.4rem;
+    line-height: 1.7;
+    margin-bottom: 45px;
+    background: rgba(255 255 255 / 0.9);
+    padding: 30px 36px;
+    border-radius: 25px;
+    box-shadow:
+      0 10px 25px rgba(255 105 180 / 0.25),
+      inset 0 0 15px rgba(255 105 180 / 0.12);
+    color: #6a3a6a;
     user-select: none;
-    color: #5a3a5a;
+    animation: fadeInUp 1.6s ease forwards;
+    opacity: 0;
+    backdrop-filter: saturate(180%) blur(10px);
   }
 
+  /* PS note */
   .ps {
     font-style: italic;
-    margin-top: 15px;
-    margin-bottom: 40px;
+    margin-top: 10px;
+    margin-bottom: 50px;
     color: #7a5f7a;
     user-select: none;
+    font-size: 1.15rem;
+    animation: fadeInUp 1.8s ease forwards;
+    opacity: 0;
   }
 
+  /* Secret Button */
   #secretButton {
     display: none;
     background: linear-gradient(135deg, #ff9a9e, #fad0c4);
     border: none;
     color: #4a374a;
-    font-weight: 700;
-    padding: 16px 38px;
-    border-radius: 40px;
-    font-size: 1.15rem;
+    font-weight: 800;
+    padding: 18px 48px;
+    border-radius: 50px;
+    font-size: 1.3rem;
     cursor: pointer;
-    box-shadow: 0 6px 15px rgba(255, 105, 180, 0.3);
-    transition: background 0.35s ease, box-shadow 0.35s ease;
+    box-shadow: 0 8px 22px rgba(255 105 180 / 0.35);
+    transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease;
     user-select: none;
+    letter-spacing: 0.05em;
   }
 
   #secretButton:hover,
   #secretButton:focus {
     background: linear-gradient(135deg, #fad0c4, #ff9a9e);
-    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
+    box-shadow: 0 12px 30px rgba(255 105 180 / 0.6);
     outline: none;
+    transform: scale(1.05);
   }
 
+  /* Secret Message */
   #secretMessage {
-    margin-top: 30px;
-    max-width: 420px;
-    font-size: 1.25rem;
-    line-height: 1.5;
-    color: #6e4b6e;
+    margin-top: 40px;
+    max-width: 460px;
+    font-size: 1.35rem;
+    line-height: 1.6;
+    color: #7b4b7b;
     opacity: 0;
     transition: opacity 1.2s ease;
     user-select: text;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 25px 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.18);
+    background: rgba(255 255 255 / 0.95);
+    padding: 30px 36px;
+    border-radius: 25px;
+    box-shadow:
+      0 12px 28px rgba(255 105 180 / 0.2),
+      inset 0 0 18px rgba(255 105 180 / 0.1);
+    backdrop-filter: saturate(180%) blur(12px);
   }
 
   #secretMessage.visible {
     opacity: 1;
   }
 
+  /* Footer */
   footer {
     margin-top: auto;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: #7d5a7d;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
     user-select: none;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    opacity: 0.8;
   }
 
-  /* Responsive font sizing */
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive */
   @media (max-width: 450px) {
     h1 {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
     }
     .poem, #secretMessage {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       max-width: 90vw;
-      padding: 20px;
+      padding: 22px 24px;
+      border-radius: 18px;
     }
     #secretButton {
       width: 90vw;
-      padding: 15px 0;
-      font-size: 1rem;
-      border-radius: 35px;
+      padding: 16px 0;
+      font-size: 1.1rem;
+      border-radius: 45px;
     }
   }
 </style>
 </head>
 <body>
 
+<!-- Splash screen -->
+<div id="splash" role="alert" aria-live="assertive" aria-busy="true" aria-label="Loading screen">
+  <div>🎈 Just a moment...</div>
+  <div>Loading your surprise! 🎁</div>
+</div>
+
 <h1>Happy Birthday, Bora 😁! 🎉</h1>
 
-<div class="poem">
+<div class="poem" aria-label="Birthday poem">
   Today is your special day.<br />
   Here is a little secret for you:<br /><br />
   
@@ -151,39 +246,52 @@
   Maybe it makes you smile like a song.
 </div>
 
-<div class="ps">P.S.<br />If you find the secret you find it, scroll down for more fun + also there is big secret below find it !!😎</div>
+<div class="ps" aria-label="Postscript note">
+  P.S.<br />If you find the secret you find it, scroll down for more fun + also there is big secret below find it !!😎
+</div>
 
 <button id="secretButton" aria-label="Reveal secret message">Click me to give you hint to your secret!</button>
 
 <div id="secretMessage" aria-live="polite" role="region" tabindex="0">
   <strong>
     <p>መልካም ልደት ለቤዛ <br />
-    ትንሽ ክንፈር እንዲኖርሽ ተመኝ በዛው 😁</p>
+    <p>ጉዞ ወደ 19 አመት <br />
+    ትንሽ ክንፈር + ረዝም ቁመት  እንዲኖርሽ ተመኝ በዛው 😁</p>
   </strong>
-  <p>This site will be removed in 1 hour,<br />
-  so you better take a screenshot, my girl!</p><br />
+  <p><br />
+     <br /> <b>A small gift from your Man + Teacher .</b>,
+     Hope u liked it my Girl! , find the secret</p><br />
   <p style="font-size: 0.9rem; color: #bfa5bfa8; letter-spacing: 0.25em; margin-top: 10px; user-select: text;">
-    ..- .-.   -- .. -. .
+  ..- .-. / - .... . / --. --- .-.. -.. / .. / ..-. --- ..- -. -.. / .. -. / - .... . / -- ..- -.. / .... ..-
   </p>
-  
 </div>
 
-<footer class="color:white">Made just for you by ur MEN ANI</footer>
+<footer>© 2025, Your Birthday Surprise</footer>
 
 <script>
+  window.addEventListener('load', () => {
+    // Fade out splash screen after 1.8 seconds
+    const splash = document.getElementById('splash');
+    setTimeout(() => {
+      splash.classList.add('fade-out');
+      setTimeout(() => {
+        splash.style.display = 'none';
+        // Show secret button after splash disappears
+        document.getElementById('secretButton').style.display = 'inline-block';
+      }, 1100);
+    }, 1800);
+  });
+
   const secretButton = document.getElementById('secretButton');
   const secretMessage = document.getElementById('secretMessage');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 150) {
-      secretButton.style.display = 'inline-block';
-    }
-  });
-
   secretButton.addEventListener('click', () => {
     secretMessage.classList.add('visible');
-    secretButton.style.display = 'none';
     secretMessage.focus();
+    // Scroll secret message into view smoothly
+    secretMessage.scrollIntoView({behavior: 'smooth', block: 'center'});
+    // Hide the button after reveal
+    secretButton.style.display = 'none';
   });
 </script>
 
